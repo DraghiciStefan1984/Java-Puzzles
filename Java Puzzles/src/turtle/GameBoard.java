@@ -50,7 +50,7 @@ public class GameBoard
 		}
 	}
 	
-	public static void updateBoardXY(int start, int spacesToMove, int leftOrRight, int constantX)
+	public static void updateBoardY(int start, int spacesToMove, int leftOrRight, int constantX)
 	{
 		for (int i=0; i<spacesToMove; i++)
 		{
