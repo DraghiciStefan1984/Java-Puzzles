@@ -31,7 +31,10 @@ public class Knight
 			
 			do
 			{
-				
+				if(!isMoving())
+				{
+					getTourResults();
+				}
 			}
 			while(!isEndTour);
 		}
@@ -39,6 +42,63 @@ public class Knight
 	
 	public boolean isMoving()
 	{
+		int[] movesTaken= {0,0,0,0,0,0,0,0};
+		boolean allMovesUsed=false;
+		
+		while(!allMovesUsed)
+		{
+			int i=rand.nextInt(8);
+			
+			if(movesTaken[i]==0)
+			{
+				int hMove=currentH+board.getHorizontal(i);
+				int vMove=currentV+board.getVertical(i);
+				
+				if(hMove>=0 && hMove<Board.SIZE && vMove>=0 && vMove<Board.SIZE && Board.chessBoard[hMove][vMove]==Board.MOVE_SYMBOL)
+				{
+					currentH=hMove;
+					currentV=vMove;
+					Board.chessBoard[currentH][currentV]=Board.MOVE_SYMBOL;
+					moveCounter++;
+					return true;
+				}
+				movesTaken[i]=1;
+			}
+			int c=0;
+			for(int moves:movesTaken)
+			{
+				c+=moves;
+			}
+			if(c==8)
+			{
+				allMovesUsed=true;
+			}
+		}
+		tourCount++;
 		return false;
+	}
+	
+	private void getTourResults()
+	{
+		isEndTour=true;
+		
+		if(moveCounter==Board.SIZE*Board.SIZE)
+		{
+			isFullTour=true;
+			board.displayBoard();
+			System.out.println("Success. The tour #"+tourCount+" was a complete tour!");
+			return;
+		}
+		
+		if(moveCounter==bestScore)
+		{
+			board.displayBoard();
+			System.out.println("No success. The best score is "+bestScore);
+		}
+		else if(moveCounter>bestScore)
+		{
+			board.displayBoard();
+			System.out.println("Still no success but getting there. The best score is "+bestScore);
+		}
 	}
 }
